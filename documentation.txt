@@ -1,0 +1,87 @@
+Project Documentation: Indian State Electricity Consumption Analysis
+1. Executive Summary
+This project provides a comprehensive analysis of daily electricity consumption across various Indian states from 2019 to 2020. By leveraging data engineering and visual analytics, the study identifies consumption patterns, seasonal trends, and the significant impact of the COVID-19 lockdown on the national power grid. The final output is an interactive web-based dashboard that allows stakeholders to visualize regional energy dynamics.
+
+2. Problem Statement
+The energy sector requires precise monitoring to manage supply and demand. This project addresses the following key questions:
+
+Regional Disparity: Which states are the highest consumers, and how does industrialization affect this?
+
+Temporal Trends: How does electricity demand fluctuate across different seasons?
+
+Shock Resilience: To what extent did the 2020 nationwide lockdown reduce energy consumption, and how quickly did the recovery occur?
+
+Data Accessibility: How can raw CSV data be transformed into an intuitive, interactive visual format for non-technical users?
+
+3. Data Collection
+The dataset used in this project represents historical daily electricity consumption (in Mega Watts) for 29 Indian states and Union Territories.
+
+Source: Historical records for the period January 1, 2019, to December 31, 2020.
+
+Attributes:
+
+Date: The specific day of recording.
+
+States: 29 individual columns representing consumption for states like Maharashtra, Gujarat, Tamil Nadu, etc.
+
+Data Simulation: For the purpose of this architecture, a Python-based generator (generate_sample_data.py) was used to create high-fidelity synthetic data that mimics real-world consumption curves, including noise, seasonality, and lockdown dips.
+
+4. Data Cleaning and Preparation
+Raw data often exists in formats unsuitable for direct analysis. This stage involved a robust ETL (Extract, Transform, Load) pipeline:
+
+Step 1: Handling Wide-Format Data
+The original dataset was in a "wide" format (states as columns). We utilized the pandas.melt() function to pivot this into a "long" format, making it compatible with relational databases.
+
+Original Columns: [Date, Punjab, Haryana, Rajasthan, ...]
+
+Transformed Columns: [Date, State, Consumption]
+
+Step 2: Date Standardization
+Date strings were parsed into datetime objects to allow for time-series operations, such as filtering by year, month, or specific lockdown dates.
+
+Step 3: Database Loading
+Using data_prep.py, the cleaned data was migrated into an SQLite database (database.db). This ensures:
+
+Data Integrity: Consistent data types and primary keys.
+
+Performance: Creation of SQL indexes on Date and State columns for near-instant query results.
+
+5. Visualizations and Dashboards
+To make the findings actionable, an interactive visualization layer was built using Tableau Public and embedded into a custom Flask Web Application.
+
+Dashboard Components:
+Time-Series Analysis: A line chart showing daily fluctuations over two years.
+
+Geospatial Mapping: A color-coded map of India indicating high vs. low consumption zones.
+
+Lockdown Comparative View: A specific visual highlighting the 25% drop in consumption during March–May 2020.
+
+Regional Breakdown: Bar charts comparing Northern, Southern, Eastern, and Western grids.
+
+Web Integration:
+Backend: Flask (Python) handles the routing and database connections.
+
+Frontend: HTML5/CSS3 (Bootstrap) provides a responsive container for the Tableau dashboard.
+
+6. Results and Findings
+Industrial Giants: Maharashtra and Gujarat emerged as the highest consumers, largely due to heavy industrial concentration.
+
+Summer Peaks: A visible 15-20% increase in domestic consumption was noted during the peak summer months (April–June) due to cooling requirements.
+
+Lockdown Impact: On March 24, 2020, consumption saw a sharp decline. Commercial and industrial demand plummeted, while residential demand remained stable but could not offset the overall loss.
+
+The Recovery: By late Q3 2020, consumption levels returned to 95% of the 2019 baseline, signaling a return to industrial productivity.
+
+7. Conclusion
+This project successfully demonstrates the end-to-end data lifecycle—from raw data simulation and SQL-based engineering to high-level visual storytelling. The resulting platform provides a clear, data-driven narrative of India's energy landscape during one of its most volatile periods.
+
+8. Technical Stack
+Languages: Python (Pandas, NumPy, Flask, SQLite3)
+
+Database: SQLite
+
+Visualization: Tableau Public
+
+Deployment: Render / Vercel (Cloud Infrastructure)
+
+Web Design: Jinja2 Templates, HTML, CSS
